@@ -1,0 +1,8 @@
+---
+- hosts: slave
+  become: true
+  vars:
+   ansible_become_pass: edureka
+  roles:
+  # - role: tomcat
+   - role: maven

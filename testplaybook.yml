@@ -1,0 +1,31 @@
+---
+- hosts: slave  
+  become: true
+  vars:
+   ansible_become_pass: edureka
+   mylist: [ 0, 2, 4, 6, 8, 10 ]
+   mydict: { a: '1', b: '2', c: '3' }
+   vat_os_family: "{{ ansible_facts['os_family'] }}"
+  tasks:
+  - name: create file
+    file: path="/home/edureka/new_dir_ans/test.txt" state=touch
+  - name: echo mesage
+    shell: echo "match os" 
+    when: ansible_facts['os_family'] == "Debian"
+  - name: create dir
+    file: path="/tmp/test1" state=directory
+  - name: add content to file
+    copy: content="this is file content add" dest="/home/edureka/new_dir_ans/test.txt"
+  - command: echo {{ item }}
+    with_items:
+     - "{{ mylist|default([]) }}"
+    when: item > 5
+  - debug:
+     msg: "{{ item }}"
+    loop: "{{ ansible_play_batch }}"
+  - name: echo ls
+    command: ls /etc/ansible
+    register: file_list
+    debug:
+      msg: "{{ item }}"
+    loop: file_list

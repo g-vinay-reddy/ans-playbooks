@@ -1,0 +1,4 @@
+---
+# handlers file for demo-mydemorole
+  - name: start nginx
+    service: name=nginx state=started

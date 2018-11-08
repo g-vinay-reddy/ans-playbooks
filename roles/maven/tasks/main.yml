@@ -1,0 +1,34 @@
+---
+# tasks file for maven
+- name: add java8 repo
+  command: apt-add-repository ppa:webupd8team/java
+  #apt:
+  # name: openjdk-8-jre
+  # state: present
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: download maven repo
+  get_url:
+   url: http://apache.mirror.digitalpacific.com.au/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+   dest: /home/edureka/Downloads
+
+- name: extract maven
+  become: true
+  become_user: root
+  unarchive:
+     src: /home/edureka/Downloads/apache-maven-3.3.9-bin.tar.gz
+     dest: /opt/
+     extra_opts: [--strip-component=1]
+     remote_src: true  
+
+- name: Update path for maven use
+  shell: export PATH=/opt/apache-maven-3.1.1/bin:$PATH
+
+- name: install maven 
+  become: true
+  become_user: root  
+  command: update-alternatives --install /usr/bin/mvn maven /opt/apache-maven-3.3.9/bin/mvn 1001
+   

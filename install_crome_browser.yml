@@ -1,0 +1,9 @@
+---
+- hosts: slave
+  become: true
+  vars:
+   #- apt_file: /etc/apt/sources.list.d/google-chrome.list
+   ansible_become_pass: edureka 
+  roles:
+   - role: cromedriver
+   - role: cromebrowser
